@@ -6,30 +6,40 @@ server:
   port: 8080
 spring:
   datasource:
+    #    url: jdbc:h2:tcp://localhost/~/fundering;MODE=MySQL
     url: jdbc:h2:mem:test;MODE=MySQL
-    driver-class-name: org.h2.Driver
     username: sa
     password:
-  h2:
-    console:
-      enabled: true
+    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create
-    show-sql: true
+      use_sql_comments: true
     properties:
       hibernate:
+        highlight_sql: true
         format_sql: true
       default_batch_fetch_size: 100
     open-in-view: false
-  output:
-    ansi:
-      enabled: always
+  sql:
+    init:
+      encoding: utf-8
+  data:
+    redis:
+      host: localhost
+      port: 6379
+logging.level:
+  org.hibernate.SQL: debug
+  # org.hibernate.type: trace
 
-logging:
-  level:
-    '[com.example.kakao]': DEBUG
-    '[org.hibernate.type]': TRACE
-
-file:
-  path: ./images/
+cloud:
+  aws:
+    s3:
+      bucket: fundering-img
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+    credentials:
+      profile-name: default
